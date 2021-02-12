@@ -111,7 +111,10 @@ def authed_get(source, url, headers={}):
             remaining = resp.headers.get('X-RateLimit-Remaining')
             time_to_reset = resp.headers.get('X-RateLimit-Reset', time.time() + 60)
             if remaining is not None and remaining == '0':
-                time.sleep(float(time_to_reset) - time.time())
+                time_to_wait = max(float(time_to_reset) - time.time(), 60) # wait at least 60 seconds
+                reset_time = resp.headers.get('X-RateLimit-Reset', "not set")
+                logger.info(f"Rate limit exceeded. X-RateLimit-Reset header in response is {reset_time}. Waiting {time_to_wait} seconds")
+                time.sleep(time_to_wait)
                 continue  # next attempt
 
             # Handle github's possible failures as retries

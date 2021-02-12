@@ -1,5 +1,12 @@
 # Changelog
 
+# 1.9.2
+  * Force backoff to be at least 60 seconds 
+
+# 1.9.1
+  * Fork to airbytehq
+  * Add backoff logic for rate limiting
+
 # 1.9.0
   * Adds `issue_events` stream [#92](https://github.com/singer-io/tap-github/pull/92)
   * Makes `project_cards` stream a child of `project_columns`[#89](https://github.com/singer-io/tap-github/pull/89)
