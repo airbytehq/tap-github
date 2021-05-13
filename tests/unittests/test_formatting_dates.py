@@ -1,7 +1,7 @@
 import unittest
 from unittest import mock
 import singer
-import tap_github.__init__ as tap_github
+import tap_github
 
 
 class Mockresponse:
@@ -15,7 +15,7 @@ def get_response(json):
     yield Mockresponse(resp=json)
 
 
-@mock.patch("tap_github.__init__.authed_get_all_pages")
+@mock.patch("tap_github.authed_get_all_pages")
 class TestRateLimit(unittest.TestCase):
 
     def test_due_on_none_without_state(self, mocked_request):
