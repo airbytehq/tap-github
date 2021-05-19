@@ -2,6 +2,7 @@
 
 # 1.9.5-airbyte
   * Fix `due_on` trying to convert none dates [#114](https://github.com/singer-io/tap-github/pull/114/)
+    * Change the incremental field from `due_on` to `created_at`
 
 # 1.9.4-airbyte
   * Sync no records and show warning message if Team Stream sync fails.
