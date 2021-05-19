@@ -391,7 +391,7 @@ def get_all_events(schemas, repo_path, state, mdata):
     return state
 
 def get_all_issue_milestones(schemas, repo_path, state, mdata):
-    # Incremental sync off `due on` ??? confirm.
+    # Incremental sync off `created_at`.
     # https://developer.github.com/v3/issues/milestones/#list-milestones-for-a-repository
     # 'https://api.github.com/repos/{}/milestones?sort=created_at&direction=desc'.format(repo_path)
     bookmark_value = get_bookmark(state, repo_path, "issue_milestones", "since")
@@ -414,7 +414,8 @@ def get_all_issue_milestones(schemas, repo_path, state, mdata):
                 # the GitHub API doesn't currently allow a ?since param for pulls
                 # once we find the first piece of old data we can return, thanks to
                 # the sorting
-                if bookmark_time and r.get("due_on") and singer.utils.strptime_to_utc(r.get("due_on")) < bookmark_time:
+                updated_at = r.get('created_at') if r.get('updated_at') is None else r.get('updated_at')
+                if bookmark_time and singer.utils.strptime_to_utc(updated_at) < bookmark_time:
                     return state
 
                 # transform and write release record
